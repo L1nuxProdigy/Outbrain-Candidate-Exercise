@@ -1,0 +1,11 @@
+try to create a virtual python env or put it as a requirement, can use the following link:
+https://www.fullstackpython.com/blog/first-steps-gitpython.html
+
+** needs to pass the git URL as a parameter to the script
+
+
+
+!! cherry_hello_world.py the cherrypy script
+## command for the bash script which returns if the container is running:
+    ## docker inspect --format="{{.State.Running}}" cherry-py
+## echo '*/1 * * * *   root    echo "BLAH">>/home/ubuntu/bleh' >> /etc/crontab

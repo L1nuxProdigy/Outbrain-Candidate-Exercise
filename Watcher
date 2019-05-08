@@ -1,0 +1,8 @@
+#! /bin/bash
+
+is_the_container_running=false
+is_the_container_running=$(docker inspect --format="{{.State.Running}}" cherry-py)
+if $is_the_container_running
+then
+	echo "hmm"
+fi
