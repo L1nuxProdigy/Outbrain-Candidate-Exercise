@@ -1,8 +1,38 @@
 #! /bin/bash
 
+## test if the service is running ##
+service_get_status_code=false
+service_get_status_code=$(curl --write-out %{http_code} --silent --output /dev/null http://127.0.0.1:9090)
+if [[ $service_get_status_code = 200 ]]
+then
+	service_status="up"
+else
+	service_status="down"
+fi
+
+## test if container is running ##
 is_the_container_running=false
 is_the_container_running=$(docker inspect --format="{{.State.Running}}" cherry-py)
 if $is_the_container_running
 then
-	echo "hmm"
+	echo "the container is up"
+	container_status="up"
 fi
+
+## test container cpu percentage ##
+container_cpu=$(docker stats cherry-py --format "{{.CPUPerc}}" --no-stream)
+if [[ $container_cpu < 50% ]]
+then
+        echo "container cpu lower than 50%"
+fi
+
+## test container memory percentage ##
+container_memory=$(docker stats cherry-py --format "{{.MemPerc}}" --no-stream)
+if [[ $container_cpu > 50% ]]
+then
+        echo "container memory is higher than 50%"
+fi
+
+echo "Status: $container_status, CPU: $container_cpu, Memory: $container_memory"
+
+
