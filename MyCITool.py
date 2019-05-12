@@ -2,6 +2,7 @@
 import git  # from gitpython library #
 import docker # from docker sdk #
 import requests # library to use curl easily #
+import time
 
 
 ###     Git Stuff     ###
@@ -17,6 +18,7 @@ container_object = docker.from_env()
 container_object.images.build(path=repo_system_path, tag=container_tag)
 container_object.containers.run(image=container_tag, detach="true", name=container_name, ports={8080:9090})
 container_object.containers.get(container_name)  ## returns an error if container isnt listed- require a test" ##
+time.sleep(1) ## program crashes if the request is lunched right away, maybe there is somthing slicker ##
 test_response = requests.get('http://127.0.0.1:9090') ## code can break here and require testing ##
 if test_response.status_code == 200:
     print("Service is Successfully Running")

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## DOCKER ##
 # installing Docker CE Prerequisites
 sudo apt-get update -y
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
@@ -22,3 +23,18 @@ sudo usermod -aG docker ubuntu
 
 # run app
 #sudo docker run -d -p 65433:65433 d0ckerprodigy/public:app_dummy
+
+## COPY PYTHON MyCITool ##
+cd /root
+git clone https://github.com/L1nuxProdigy/Outbrain-Candidate-Exercise
+mv /root/Outbrain-Candidate-Exercise/MyCITool.py /home/ubuntu/MyCITool.py
+
+## PYTHON PIP ##
+apt-get install python3-venv -y
+python3 -m venv /home/ubuntu/OutbrainTask
+source /home/ubuntu/OutbrainTask/bin/activate
+pip install gitpython
+pip install docker
+
+
+
