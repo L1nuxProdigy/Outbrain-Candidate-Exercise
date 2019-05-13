@@ -26,7 +26,7 @@ for i in range(10):
             api_response = requests.get('http://127.0.0.1:9090')
             if api_response.status_code == 200:
                 print("Service is Successfully Running")
-                text_to_crontab = "*/1 * * * *   root    "+project_path+"/Watcher"
+                text_to_crontab = "*/1 * * * *   root    "+project_path+"/Watcher\n"
                 f = open("/etc/crontab", "a")
                 f.write(text_to_crontab)
                 f.close
