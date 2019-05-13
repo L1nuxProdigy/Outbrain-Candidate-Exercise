@@ -26,7 +26,7 @@ is_the_container_running () {
 
 is_container_cpu_under_50 () {
 	container_cpu_state=$(docker stats cherry-py --format "{{.CPUPerc}}" --no-stream)
-	if [[ $container_cpu_state < 50% ]]
+	if [[ $container_cpu_state < 50% ]]  ## should test again if works with the % ##
 	then
 		container_cpu_status="okay"
 	else
@@ -36,7 +36,7 @@ is_container_cpu_under_50 () {
 
 is_container_memory_above_50 () {
 	container_memory_state=$(docker stats cherry-py --format "{{.MemPerc}}" --no-stream)
-	if [[ $container_memory_state > 50% ]]
+	if [[ $container_memory_state > 50% ]]  ## should test again if works with the % ##
 	then
 		container_memory_status="okay"
 	else
@@ -85,4 +85,5 @@ then
 	docker restart cherry-py >> ./watcher_log_file 2>&1
 fi
 
-
+echo "" >> ./watcher_log_file
+echo "******************** NEW SAMPLE ABOVE ********************" >> ./watcher_log_file
