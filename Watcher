@@ -57,21 +57,21 @@ logging_status () {
 }
 
 type_to_log () {
-	echo "******************** START OF SAMPLE ********************" >> ./watcher_log_file
-	echo $log_level >> ./watcher_log_file
-	echo "-----------" >> ./watcher_log_file
-	echo "Container Status: $container_status, Service Status: $service_status, CPU: $container_cpu_state, Memory: $container_memory_state" >> ./watcher_log_file
-	echo "-----------" >> ./watcher_log_file
+	echo "******************** START OF SAMPLE ********************" >> /var/log/watcher_log_file
+	echo $log_level >> /var/log/watcher_log_file
+	echo "-----------" >> /var/log/watcher_log_file
+	echo "Container Status: $container_status, Service Status: $service_status, CPU: $container_cpu_state, Memory: $container_memory_state" >> /var/log/watcher_log_file
+	echo "-----------" >> /var/log/watcher_log_file
 }
 
 ## Program ##
 
-is_the_container_running >> ./watcher_log_file 2>&1
+is_the_container_running >> /var/log/watcher_log_file 2>&1
 if [ "$container_status" = "up" ]
 then
-	is_the_service_running >> ./watcher_log_file 2>&1
-	is_container_cpu_under_50 >> ./watcher_log_file 2>&1
-	is_container_memory_above_50 >> ./watcher_log_file 2>&1
+	is_the_service_running >> /var/log/watcher_log_file 2>&1
+	is_container_cpu_under_50 >> /var/log/watcher_log_file 2>&1
+	is_container_memory_above_50 >> /var/log/watcher_log_file 2>&1
 	logging_status
 	type_to_log
 else
@@ -81,7 +81,7 @@ fi
 
 if [ "$log_level" = "ERROR" ]
 then
-	docker restart cherry-py >> ./watcher_log_file 2>&1
+	docker restart cherry-py >> /var/log/watcher_log_file 2>&1
 fi
 
-echo -e "******************** END OF SAMPLE ********************\n\n\n\n" >> ./watcher_log_file
+echo -e "******************** END OF SAMPLE ********************\n\n" >> /var/log/watcher_log_file
