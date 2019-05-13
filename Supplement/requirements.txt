@@ -1,8 +1,0 @@
-apt-get install python3-venv -y
-python3 -m venv OutbrainTask
-
-# source bin/activate
-# pip install gitpython
-# pip install docker
-# URL https://github.com/L1nuxProdigy/Outbrain-Candidate-Exercise
-# Path, /home/ubuntu/OutbrainTask
