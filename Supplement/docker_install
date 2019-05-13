@@ -25,9 +25,8 @@ sudo usermod -aG docker ubuntu
 #sudo docker run -d -p 65433:65433 d0ckerprodigy/public:app_dummy
 
 ## COPY PYTHON MyCITool ##
-cd /root
+cd /home/ubuntu
 git clone https://github.com/L1nuxProdigy/Outbrain-Candidate-Exercise
-mv /root/Outbrain-Candidate-Exercise/MyCITool.py /home/ubuntu/MyCITool.py
 
 ## PYTHON PIP ##
 apt-get install python3-venv -y

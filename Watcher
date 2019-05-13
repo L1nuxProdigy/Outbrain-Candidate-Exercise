@@ -36,7 +36,7 @@ is_container_cpu_under_50 () {
 
 is_container_memory_above_50 () {
 	container_memory_state=$(docker stats cherry-py --format "{{.MemPerc}}" --no-stream)
-	if [[ $container_memory_state > 50% ]]
+	if [[ $container_memory_state < 50% ]]
 	then
 		container_memory_status="okay"
 	else

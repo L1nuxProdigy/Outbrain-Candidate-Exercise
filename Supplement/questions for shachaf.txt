@@ -1,0 +1,9 @@
+1. should i have implemented cherry-py api?
+		ANSWER: GET is enough
+2. when should there be a warning: does memory > 50% is the desireable state? 
+		ANSWER: memory should be less than 50%
+3. does the watcher script itself adds himself as cronjob? does the user do it himself?
+   if automated is required i think should be done from the python script
+		ANSWER: its okay for the watcher to be the job itself
+4. ive made a text log although it is weird to write every minute log
+		ANSWER: also fine
