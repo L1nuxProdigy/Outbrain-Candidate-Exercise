@@ -1,38 +1,88 @@
 #! /bin/bash
 
-## test if the service is running ##
-service_get_status_code=false
-service_get_status_code=$(curl --write-out %{http_code} --silent --output /dev/null http://127.0.0.1:9090)
-if [[ $service_get_status_code = 200 ]]
+## Functions ##
+
+is_the_service_running () {
+	service_get_status_code=false
+	service_get_status_code=$(curl --write-out %{http_code} --silent --output /dev/null http://127.0.0.1:9090)
+	if [[ $service_get_status_code = 200 ]]
+	then
+		service_status="up"
+	else
+		service_status="down"
+	fi
+}
+
+is_the_container_running () {
+	container_state=false
+	container_state=$(docker inspect --format="{{.State.Running}}" cherry-py)
+	if $container_state
+	then
+		container_status="up"
+	else
+		container_status="down"
+	fi
+}
+
+is_container_cpu_under_50 () {
+	container_cpu_state=$(docker stats cherry-py --format "{{.CPUPerc}}" --no-stream)
+	if [[ $container_cpu_state < 50% ]]
+	then
+		container_cpu_status="okay"
+	else
+		container_cpu_status="not okay"
+	fi
+}
+
+is_container_memory_above_50 () {
+	container_memory_state=$(docker stats cherry-py --format "{{.MemPerc}}" --no-stream)
+	if [[ $container_memory_state > 50% ]]
+	then
+		container_memory_status="okay"
+	else
+		container_memory_status="not okay"
+	fi
+}
+
+logging_status () {
+	if [ "$container_status" = "down" ] || [ "$service_status" = "down" ]
+	then
+		log_level="ERROR"
+	elif [ "$container_cpu_status" = "not okay" ] || [ "$container_memory_status" = "not okay" ]
+	then
+		log_level="WARNING"
+	else
+		log_level="INFO"
+	fi
+}
+
+type_to_log () {
+	echo "******************** START OF SAMPLE ********************" >> ./watcher_log_file
+	echo "######" >> ./watcher_log_file
+	echo $log_level >> ./watcher_log_file
+	echo "-----------" >> ./watcher_log_file
+	echo "Container Status: $container_status, Service Status: $service_status, CPU: $container_cpu_state, Memory: $container_memory_state" >> ./watcher_log_file
+	echo "######" >> ./watcher_log_file
+}
+
+## Program ##
+
+is_the_container_running >> ./watcher_log_file 2>&1
+if [ "$container_status" = "up" ]
 then
-	service_status="up"
+	is_the_service_running >> ./watcher_log_file 2>&1
+	is_container_cpu_under_50 >> ./watcher_log_file 2>&1
+	is_container_memory_above_50 >> ./watcher_log_file 2>&1
+	logging_status
+	type_to_log
 else
-	service_status="down"
+	logging_status
+	type_to_log
 fi
 
-## test if container is running ##
-is_the_container_running=false
-is_the_container_running=$(docker inspect --format="{{.State.Running}}" cherry-py)
-if $is_the_container_running
+if [ "$log_level" = "ERROR" ]
 then
-	echo "the container is up"
-	container_status="up"
+	docker restart cherry-py >> ./watcher_log_file 2>&1
 fi
 
-## test container cpu percentage ##
-container_cpu=$(docker stats cherry-py --format "{{.CPUPerc}}" --no-stream)
-if [[ $container_cpu < 50% ]]
-then
-        echo "container cpu lower than 50%"
-fi
-
-## test container memory percentage ##
-container_memory=$(docker stats cherry-py --format "{{.MemPerc}}" --no-stream)
-if [[ $container_cpu > 50% ]]
-then
-        echo "container memory is higher than 50%"
-fi
-
-echo "Status: $container_status, CPU: $container_cpu, Memory: $container_memory"
-
-
+echo -e "******************** END OF SAMPLE ********************\n\n\n\n" >> ./watcher_log_file
