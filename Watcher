@@ -58,11 +58,10 @@ logging_status () {
 
 type_to_log () {
 	echo "******************** START OF SAMPLE ********************" >> ./watcher_log_file
-	echo "######" >> ./watcher_log_file
 	echo $log_level >> ./watcher_log_file
 	echo "-----------" >> ./watcher_log_file
 	echo "Container Status: $container_status, Service Status: $service_status, CPU: $container_cpu_state, Memory: $container_memory_state" >> ./watcher_log_file
-	echo "######" >> ./watcher_log_file
+	echo "-----------" >> ./watcher_log_file
 }
 
 ## Program ##
