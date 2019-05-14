@@ -43,7 +43,7 @@ def main():
 				api_response = requests.get('http://127.0.0.1:9090')
 				if api_response.status_code == 200:
 					print("Service is Successfully Running")
-					add_watcher_cronjob()
+					add_watcher_cronjob(project_path)
 					break
 				else:
 					print("Service is NOT RUNNING, Requires Attention")
@@ -53,6 +53,6 @@ def main():
 			print(f'Somthing went Wrong {err}')
 			time.sleep(1)
 			continue
-			
+
 if __name__ == "__main__":
 	main()
