@@ -6,3 +6,10 @@ python3 -m venv OutbrainTask
 # pip install docker
 # URL https://github.com/L1nuxProdigy/Outbrain-Candidate-Exercise
 # Path, /home/ubuntu/OutbrainTask
+
+
+
+require more tests
+	test if libraries are installed
+	test if url is okay
+can be used as regular user?

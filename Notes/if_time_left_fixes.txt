@@ -5,6 +5,3 @@ formaling the log in a way that another program can parse (json like) + add date
 
 
 add (logfile) weird handler\timeout file so the script wont overflow the system
-
-python
-change repo path to .
