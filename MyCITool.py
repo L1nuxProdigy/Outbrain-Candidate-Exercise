@@ -21,7 +21,6 @@ def add_watcher_cronjob(project_path):
 
 def main():
 	## Git Part ##
-	
 	github_repo_url = sys.argv[1]
 	project_path = os.getcwd()+"/cloned_repo_folder"
 	clone_git_repo(github_repo_url,project_path)
@@ -30,8 +29,13 @@ def main():
 	container_tag = "tagging_it"
 	container_name = "cherry-py"
 	create_container(container_tag, container_name, project_path)
+	docker_client = docker.from_env()
 	container = docker_client.containers.get(container_name)
 
+	## Main Test ##
+		## 10 iterations to check whether the container and service are up ##
+		## the number of iterations randomly chosed as a way of a timeout ##
+		## if the container and service are up it will ad the watcher cronjob ##
 	for i in range(10):
 		print(f'attempt {i+1}')
 		try:
@@ -49,3 +53,6 @@ def main():
 			print(f'Somthing went Wrong {err}')
 			time.sleep(1)
 			continue
+			
+if __name__ == "__main__":
+	main()
