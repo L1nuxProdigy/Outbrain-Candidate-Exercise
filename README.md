@@ -18,7 +18,7 @@ In this Repository you can find the MyCITool python script which accepts a githu
 
 Usage Example: (with this repository)
 
-MyCITool.py https://github.com/L1nuxProdigy/Outbrain-Candidate-Exercise
+python3 MyCITool.py https://github.com/L1nuxProdigy/Outbrain-Candidate-Exercise
 
 
 the program if succeeded will:
