@@ -2,6 +2,7 @@
 requirements:
 - ubuntu OS (was tested on 18.04 in AWS)
 - docker
+- root privileges
 - Python 3 (was tested on 3.6.7)
     - python libraries: (not shipped with 3.6.7 and require installation):
         - git (AKA gitpython)
